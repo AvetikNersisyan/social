@@ -4,9 +4,11 @@ import { login, signup } from "../controllers/authController/auth.js";
 const router = express.Router();
 
 router.use((req, res, next) => {
-  //   if (true) {
-  //     return res.send({ status: "error" });
-  //   }
+  const { username, password } = req.body;
+
+  if (!(username && password !== undefined)) {
+    return res.send({ message: "Username and password are required" });
+  }
   next();
 });
 

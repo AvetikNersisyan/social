@@ -1,11 +1,19 @@
-import express from "express";
-import { newsController } from "../controllers/newsController/news.js";
-import { verifyToken } from "../middlewares/verifyToken.js";
+import express from 'express'
+import {
+  getNewsController, publishNews,
 
-const router = express();
+} from '../controllers/newsController/news.js'
+import { getUser } from '../controllers/userController/user.js'
+import { verifyToken } from '../middlewares/verifyToken.js'
 
-router.use(verifyToken);
 
-router.get("/news", newsController);
+const router = express()
 
-export default router;
+router.use(verifyToken)
+
+router.get('/news', getNewsController)
+
+router.post('/news', publishNews)
+router.get('/user', getUser)
+
+export default router

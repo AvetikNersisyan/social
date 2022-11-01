@@ -1,24 +1,32 @@
-import logo from './logo.svg';
-import './App.css';
+import {  Container } from "@mui/material";
+import { useEffect } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import { Routing } from "./Routing/Routes";
+import { getToken } from './utils'
+import  { setUser} from './redux/reducers/user'
+
 
 function App() {
+
+
+
+const dispatch = useDispatch()
+  const { isAuth } = useSelector(state =>state.user.user.currentUser)
+
+  useEffect(() => {
+    const token = getToken();
+    if (token) {
+      console.log(token, 'token')
+      dispatch(setUser({ isAuth: true }))
+    } else {
+      dispatch(setUser({isAuth: false}))
+    }
+  }, [isAuth])
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Container>
+      <Routing />
+    </Container>
   );
 }
 

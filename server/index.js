@@ -1,20 +1,24 @@
 import express from "express";
 import mysql from "mysql";
+import cors from 'cors'
 
-import authRoute from "./routers/routers.js";
+import authRoute from "./routers/publicRoutes.js";
 import newsRoute from "./routers/privateRoutes.js";
 const PORT = 8080;
 const app = express();
 
-const conn = mysql.createConnection({
+export const conn = mysql.createConnection({
   host: "localhost",
-  password: "3hNc]oDdm47uc4ZA",
-  user: "admin",
+  password: "Ev5Jvc@HthIO7078",
+  user: "Admin",
   database: "test",
 });
 
 conn.connect((err) => {
-  if (err) console.log("errr117");
+  if (err) {
+    console.log(err, "err");
+    return;
+  }
   console.log("connected to db");
 });
 
@@ -22,6 +26,7 @@ app.listen(PORT, () => {
   console.log("app started on port :" + PORT);
 });
 
+app.use(cors())
 app.use(express.json());
 app.use("/auth", authRoute);
 app.use("/", newsRoute);
@@ -41,8 +46,6 @@ app.post("/addUser", (req, res) => {
   const sql = `INSERT INTO Users (email, password) VALUES("${username}", "${password}")`;
 
   conn.query(sql, (err, result) => {
-    console.log(err, "errr");
-    console.log(result, "result");
     if (err) {
       return res.status(500);
     }
