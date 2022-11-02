@@ -7,7 +7,12 @@ export const MainLayout =({ children }) => {
   return (
     <Box>
       <Header/>
+      <Box style={{
+        marginTop: '4rem'
+      }}>
+
       {children}
+      </Box>
     </Box>
   )
 }

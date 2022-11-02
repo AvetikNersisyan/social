@@ -1,7 +1,8 @@
 import { Account } from '../Pages/Account'
 import { Login } from "../Pages/Auth/login";
-import {  MainFeed } from "../Pages/Auth/Feed";
+import {  MainFeed } from "../Pages/Feed";
 import { SignUp } from "../Pages/Auth/registration";
+import { Profile } from '../Pages/Profile'
 
 export const routes = [
   {
@@ -11,6 +12,10 @@ export const routes = [
   {
     path: "/account",
     Component: <Account />,
+  },
+ {
+    path: "/profile",
+    Component: <Profile />,
   },
 
 ];

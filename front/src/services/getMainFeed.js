@@ -4,7 +4,7 @@ import { apiRequest } from "./apiRequest"
 import { API_STATUS } from './constants'
 
 
-export const useGetFeedData = () => {
+export const useGetMainFeed = () => {
   const [status, setStatus] = useState(API_STATUS.INITIAL)
   const [res, setRes] = useState([])
 
@@ -13,7 +13,7 @@ export const useGetFeedData = () => {
     setStatus(API_STATUS.LOADING)
     const token = getToken();
     apiRequest({
-      url: 'news',
+      url: 'news/feed',
       method: 'GET',
       headers: {
         Authorization: `Bearer ${token}`
