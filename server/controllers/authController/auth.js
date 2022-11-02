@@ -7,10 +7,11 @@ import { SALT_ROUNDS } from '../../routers/utils.js'
 export const login = (req, res) => {
   const { username, password } = req.body;
 
-  const sql = `SELECT ID, email, password FROM Users WHERE email="${username}"`;
+  const sql = `SELECT ID, email, password FROM users WHERE email="${username}"`;
 
 
   conn.query(sql, async (err, result) => {
+    console.log(err, 'err');
     if (err) {
       return res.sendStatus(500);
     }
@@ -21,9 +22,7 @@ export const login = (req, res) => {
         result[0].password
       );
 
-      console.log(username, 'username')
       const id = result[0].ID;
-      console.log(id, 'idik')
       if (isMatch) {
         const token = jwt.sign({ username, id: id }, "hello");
 
@@ -41,20 +40,26 @@ export const login = (req, res) => {
 };
 
 export const signup = (req, res) => {
-  const { username, password } = req.body;
+  const { username, password, name, surname } = req.body;
 
-  // if (!(username && password)) {
-  //   return res
-  //     .status(400)
-  //     .send({ message: "Password and username are required" });
-  // }
+
+  console.log(req.body);
+  if (!(username && password)) {
+    return res
+      .status(400)
+      .send({ message: "Password and username are required" });
+  }
 
 
   const salt = bcrypt.genSaltSync(SALT_ROUNDS);
   try {
     const hashed = bcrypt.hashSync(password, salt);
-    const sql = `INSERT INTO  Users (email, password) VALUES("${username}", "${hashed}")`;
+    const sql = `INSERT INTO  users (email, password, name, surname) VALUES("${username}", "${hashed}", '${name}', '${surname}')`;
+    
     conn.query(sql, (err, result) => {
+      console.log(err,'sign up');
+
+
       if (err) {
         if (err.errno === 1062) {
           return res.send({ message: "User Already Exists" });
@@ -66,6 +71,7 @@ export const signup = (req, res) => {
       }
     });
   } catch (e) {
-    return res.status(400).send({ message: "Password required" });
+    console.log(e, 'err');
+    return res.status(500).send({ message: "Server Error", data: e });
   }
 };

@@ -21,7 +21,6 @@ const userSlice = createSlice({
   reducers: {
     setUser: (state, action) => {
       state.currentUser = { ...state.currentUser, ...action.payload };
-      console.log(state.currentUser, 'curr')
        return state
     },
     refreshBaseData: (state, {payload}) => {

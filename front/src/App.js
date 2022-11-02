@@ -16,7 +16,6 @@ const dispatch = useDispatch()
   useEffect(() => {
     const token = getToken();
     if (token) {
-      console.log(token, 'token')
       dispatch(setUser({ isAuth: true }))
     } else {
       dispatch(setUser({isAuth: false}))

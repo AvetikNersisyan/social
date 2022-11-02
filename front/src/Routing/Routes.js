@@ -6,7 +6,6 @@ import { Navigate, Route, Routes } from "react-router-dom";
 export const Routing = () => {
   const { isAuth } = useSelector(state => state.user.user.currentUser)
 
-  console.log(isAuth, 'isAuth')
   if(!isAuth) {
     return  <Routes>
       {

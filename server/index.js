@@ -7,19 +7,19 @@ import newsRoute from "./routers/privateRoutes.js";
 const PORT = 8080;
 const app = express();
 
+
+
 export const conn = mysql.createConnection({
   host: "localhost",
-  password: "Ev5Jvc@HthIO7078",
-  user: "Admin",
+  // password: "Ev5Jvc@HthIO7078",
+  user: "admin",
   database: "test",
 });
 
 conn.connect((err) => {
   if (err) {
-    console.log(err, "err");
     return;
   }
-  console.log("connected to db");
 });
 
 app.listen(PORT, () => {
@@ -43,9 +43,12 @@ app.get("/createUsersTable", (req, res) => {
 
 app.post("/addUser", (req, res) => {
   const { username, password } = req.body;
-  const sql = `INSERT INTO Users (email, password) VALUES("${username}", "${password}")`;
+  const sql = `INSERT INTO users (email, password) VALUES("${username}", "${password}")`;
+
+
 
   conn.query(sql, (err, result) => {
+    console.log(err, 'err');
     if (err) {
       return res.status(500);
     }

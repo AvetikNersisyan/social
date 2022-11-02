@@ -1,12 +1,12 @@
 import { Account } from '../Pages/Account'
 import { Login } from "../Pages/Auth/login";
-import { Feed } from "../Pages/Auth/Feed";
+import {  MainFeed } from "../Pages/Auth/Feed";
 import { SignUp } from "../Pages/Auth/registration";
 
 export const routes = [
   {
     path: "/",
-    Component: <Feed />,
+    Component: <MainFeed />,
   },
   {
     path: "/account",

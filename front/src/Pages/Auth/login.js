@@ -27,10 +27,9 @@ export const Login = () => {
 
   useEffect(() => {
     if (isAuth) {
-      console.log(isAuth,'esim')
       navigate('/')
     }
-  }, [isAuth])
+  }, [isAuth, navigate])
 
   const onChangeField = (value, field) => {
     const copiedData = Object.assign({}, userBaseData)

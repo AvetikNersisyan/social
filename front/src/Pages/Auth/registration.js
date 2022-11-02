@@ -50,11 +50,26 @@ export const SignUp = () => {
           <InputLabel htmlFor="input-login-username">Email address</InputLabel>
           <Input onChange={(e) => onChangeField(e.target.value, 'username')}  id="input-login-username" />
         </FormControl>
+
         <FormControl>
           <InputLabel htmlFor="input-login-password">Password</InputLabel>
           <Input onChange={(e) => onChangeField(e.target.value, 'password')} id="input-login-password" />
         </FormControl>
+
         <FormControl>
+          <InputLabel htmlFor="input-login-name">Name </InputLabel>
+          <Input onChange={(e) => onChangeField(e.target.value, 'name')}  id="input-login-name" />
+        </FormControl>
+
+        <FormControl>
+          <InputLabel htmlFor="input-login-surname">Surname </InputLabel>
+          <Input onChange={(e) => onChangeField(e.target.value, 'surname')}  id="input-login-surname" />
+        </FormControl>
+
+        <FormControl>
+
+
+
           <LoadingButton onClick={onSignUp} type="submit" variant="contained">
             Sign up
           </LoadingButton>
