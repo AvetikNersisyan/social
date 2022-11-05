@@ -1,18 +1,19 @@
-import { createSlice } from '@reduxjs/toolkit'
-
+import { createSlice } from "@reduxjs/toolkit";
 
 const initState = {
   baseData: {
-    username: '',
-    password: '',
+    username: "",
+    password: "",
   },
   currentUser: {
     username: "",
     name: "",
     lastName: "",
     isAuth: false,
-  }
-
+  },
+  postDraft: {
+    content: "",
+  },
 };
 
 const userSlice = createSlice({
@@ -21,16 +22,19 @@ const userSlice = createSlice({
   reducers: {
     setUser: (state, action) => {
       state.currentUser = { ...state.currentUser, ...action.payload };
-       return state
+      return state;
     },
-    refreshBaseData: (state, {payload}) => {
+    refreshBaseData: (state, { payload }) => {
       state.baseData = payload;
       return state;
-    }
+    },
+    refreshPostDraft: (state, { payload }) => {
+      state.postDraft = payload;
+      return state;
+    },
   },
 });
 
-export const { setUser, refreshBaseData } = userSlice.actions;
-
+export const { setUser, refreshBaseData, refreshPostDraft } = userSlice.actions;
 
 export default userSlice.reducer;

@@ -1,20 +1,20 @@
-import { Container, Box } from "@mui/system"
+import { Container, Box } from "@mui/system";
 
-import * as React from 'react';
-import { styled } from '@mui/material/styles';
-import Card from '@mui/material/Card';
-import CardHeader from '@mui/material/CardHeader';
-import CardContent from '@mui/material/CardContent';
-import CardActions from '@mui/material/CardActions';
-import Collapse from '@mui/material/Collapse';
-import Avatar from '@mui/material/Avatar';
-import IconButton from '@mui/material/IconButton';
-import Typography from '@mui/material/Typography';
-import { red } from '@mui/material/colors';
-import FavoriteIcon from '@mui/icons-material/Favorite';
-import ShareIcon from '@mui/icons-material/Share';
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import MoreVertIcon from '@mui/icons-material/MoreVert';
+import * as React from "react";
+import { styled } from "@mui/material/styles";
+import Card from "@mui/material/Card";
+import CardHeader from "@mui/material/CardHeader";
+import CardContent from "@mui/material/CardContent";
+import CardActions from "@mui/material/CardActions";
+import Collapse from "@mui/material/Collapse";
+import Avatar from "@mui/material/Avatar";
+import IconButton from "@mui/material/IconButton";
+import Typography from "@mui/material/Typography";
+import { red } from "@mui/material/colors";
+import FavoriteIcon from "@mui/icons-material/Favorite";
+import ShareIcon from "@mui/icons-material/Share";
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import MoreVertIcon from "@mui/icons-material/MoreVert";
 //
 // export const FeedItem = ({content, title, name, surname}) => {
 //
@@ -31,44 +31,43 @@ import MoreVertIcon from '@mui/icons-material/MoreVert';
 //     )
 // }
 
-
 const createAvatarLetters = (name, surname) => {
-  let res = "" ;
+  let res = "";
 
-  if(name) {
-    res += name.split('')[0]
+  if (name) {
+    res += name.split("")[0];
   }
-  if(surname) {
-    res +=surname.split('')[0]
+  if (surname) {
+    res += surname.split("")[0];
   }
 
   return res || null;
-}
+};
 
-export const  FeedItem = ({content, title, name, surname, isOwner}) => {
-
+export const FeedItem = ({ content, title, name, surname, isOwner, ID }) => {
   return (
     <Card
       sx={{
         maxWidth: 500,
-        width: '50vw',
-        minWidth: 250
-    }}
-
+        width: "50vw",
+        minWidth: 250,
+      }}
     >
       <CardHeader
         avatar={
-          <Avatar   sx={{ bgcolor: red[500] }} aria-label="recipe">
-            {createAvatarLetters(name, surname) }
+          <Avatar sx={{ bgcolor: red[500] }} aria-label="recipe">
+            {createAvatarLetters(name, surname)}
           </Avatar>
         }
-        action={ isOwner && <IconButton aria-label="settings">
-          <MoreVertIcon />
-          </IconButton> }
+        action={
+          isOwner && (
+            <IconButton aria-label="settings">
+              <MoreVertIcon />
+            </IconButton>
+          )
+        }
         title={title}
         subheader="September 14, 2016"
-
-
       />
 
       <CardContent>
@@ -81,7 +80,6 @@ export const  FeedItem = ({content, title, name, surname, isOwner}) => {
           <FavoriteIcon />
         </IconButton>
       </CardActions>
-
     </Card>
   );
-}
+};

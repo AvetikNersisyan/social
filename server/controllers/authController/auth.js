@@ -1,40 +1,37 @@
-import bcrypt from 'bcrypt'
-import jwt from 'jsonwebtoken'
-import { conn } from '../../index.js'
-import { SALT_ROUNDS } from '../../routers/utils.js'
-
+import bcrypt from "bcrypt";
+import jwt from "jsonwebtoken";
+import { conn } from "../../index.js";
+import { SALT_ROUNDS } from "../../routers/utils.js";
 
 export const login = (req, res) => {
   const { username, password } = req.body;
 
   const sql = `SELECT ID, email, password FROM users WHERE email="${username}"`;
 
-
   conn.query(sql, async (err, result) => {
-    console.log(err, 'err');
+    console.log(err, "err");
     if (err) {
       return res.sendStatus(500);
     }
 
     if (result.length) {
-      const isMatch = await bcrypt.compare(
-        password,
-        result[0].password
-      );
+      const isMatch = await bcrypt.compare(password, result[0].password);
 
       const id = result[0].ID;
       if (isMatch) {
         const token = jwt.sign({ username, id: id }, "hello");
 
-        return res.status(200).send({success: isMatch, token: token   })
+        return res.status(200).send({ success: isMatch, token: token });
       } else {
-        return res.send({ message: 'Incorrect email/password'})
+        return res.send({
+          success: false,
+          message: "Incorrect email/password",
+        });
       }
     } else {
-       return  res.send({ message: "No user found"})
+      return res.send({ success: false, message: "No user found" });
     }
   });
-
 
   // res.send({ status: "ok", token: token });
 };
@@ -42,18 +39,14 @@ export const login = (req, res) => {
 export const signup = (req, res) => {
   const { username, password, name, surname } = req.body;
 
-
-  console.log(req.body);
   if (!(username && password)) {
     return res
       .status(400)
       .send({ message: "Password and username are required" });
   }
 
-  const firstName = name ? `\'${name}\'` : null
-  const lastName = surname ?  `\'${surname}\'` : null;
-
-
+  const firstName = name ? `\'${name}\'` : null;
+  const lastName = surname ? `\'${surname}\'` : null;
 
   const salt = bcrypt.genSaltSync(SALT_ROUNDS);
   try {
@@ -61,8 +54,7 @@ export const signup = (req, res) => {
     const sql = `INSERT INTO  users (email, password, name, surname) VALUES("${username}", "${hashed}", ${firstName}, ${lastName})`;
 
     conn.query(sql, (err, result) => {
-      console.log(err,'sign up');
-
+      console.log(err, "sign up");
 
       if (err) {
         if (err.errno === 1062) {
@@ -75,7 +67,7 @@ export const signup = (req, res) => {
       }
     });
   } catch (e) {
-    console.log(e, 'err');
+    console.log(e, "err");
     return res.status(500).send({ message: "Server Error", data: e });
   }
 };

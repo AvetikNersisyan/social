@@ -1,8 +1,8 @@
-import { Account } from '../Pages/Account'
+import { Account } from "../Pages/Account";
 import { Login } from "../Pages/Auth/login";
-import {  MainFeed } from "../Pages/Feed";
+import { MainFeed } from "../Pages/Feed";
 import { SignUp } from "../Pages/Auth/registration";
-import { Profile } from '../Pages/Profile'
+import { Profile } from "../Pages/Profile/Profile";
 
 export const routes = [
   {
@@ -13,16 +13,13 @@ export const routes = [
     path: "/account",
     Component: <Account />,
   },
- {
+  {
     path: "/profile",
     Component: <Profile />,
   },
-
 ];
 
-
 export const publicRoutes = [
-
   {
     path: "/login",
     Component: <Login />,
@@ -31,5 +28,4 @@ export const publicRoutes = [
     path: "/signup",
     Component: <SignUp />,
   },
-
-]
+];
