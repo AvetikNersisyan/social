@@ -50,12 +50,16 @@ export const signup = (req, res) => {
       .send({ message: "Password and username are required" });
   }
 
+  const firstName = name ? `\'${name}\'` : null
+  const lastName = surname ?  `\'${surname}\'` : null;
+
+
 
   const salt = bcrypt.genSaltSync(SALT_ROUNDS);
   try {
     const hashed = bcrypt.hashSync(password, salt);
-    const sql = `INSERT INTO  users (email, password, name, surname) VALUES("${username}", "${hashed}", '${name}', '${surname}')`;
-    
+    const sql = `INSERT INTO  users (email, password, name, surname) VALUES("${username}", "${hashed}", ${firstName}, ${lastName})`;
+
     conn.query(sql, (err, result) => {
       console.log(err,'sign up');
 

@@ -45,7 +45,7 @@ const createAvatarLetters = (name, surname) => {
   return res || null;
 }
 
-export const  FeedItem = ({content, title, name  , surname}) => {
+export const  FeedItem = ({content, title, name, surname, isOwner}) => {
 
   return (
     <Card
@@ -62,13 +62,13 @@ export const  FeedItem = ({content, title, name  , surname}) => {
             {createAvatarLetters(name, surname) }
           </Avatar>
         }
-        action={
-          <IconButton aria-label="settings">
-            <MoreVertIcon />
-          </IconButton>
-        }
+        action={ isOwner && <IconButton aria-label="settings">
+          <MoreVertIcon />
+          </IconButton> }
         title={title}
         subheader="September 14, 2016"
+
+
       />
 
       <CardContent>
