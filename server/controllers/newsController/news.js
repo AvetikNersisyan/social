@@ -136,7 +136,12 @@ export const publishNews = (req, res) => {
     });
   }
 
-  const sql = `INSERT INTO news( title, content, authorID) VALUES ("""${title}""","""${content}""",'${authorID}')`;
+  const escapteQuotes = (str) => str.replace("'", "''");
+
+  const escapedTitle = escapteQuotes(title);
+  const escapedContent = escapteQuotes(content);
+
+  const sql = `INSERT INTO news( title, content, authorID) VALUES ('${escapedTitle}','${escapedContent}','${authorID}')`;
 
   conn.query(sql, (err, result) => {
     console.log(authorID);
