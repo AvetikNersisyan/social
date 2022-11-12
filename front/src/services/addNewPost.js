@@ -1,4 +1,3 @@
-import { Api } from "@mui/icons-material";
 import { useState } from "react";
 import { apiRequest } from "./apiRequest";
 import { API_STATUS } from "./constants";

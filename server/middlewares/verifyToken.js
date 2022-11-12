@@ -1,5 +1,4 @@
-import jwt from 'jsonwebtoken'
-
+import jwt from "jsonwebtoken";
 
 export const verifyToken = (req, res, next) => {
   const { token } = req.body;
@@ -9,7 +8,7 @@ export const verifyToken = (req, res, next) => {
   const singleToken = tokenBearer || token;
 
   if (!singleToken) {
-    return res.status(403).send("Token is required for every query!");
+    return res.status(403).send("Token is required!");
   }
 
   try {

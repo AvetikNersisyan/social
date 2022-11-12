@@ -53,13 +53,16 @@ export const updatePost = (req, res) => {
   const { id: userId } = req.user;
   const { title, content } = req.body;
 
-  if (!(title || content)) {
+  if (
+    !(title || content) ||
+    typeof title !== "string" ||
+    typeof content !== "string"
+  ) {
     return res.send({
       success: false,
-      message: "send body",
+      message: "send new title and content as text",
     });
   }
-  // const sqlTitle = title ? title :
 
   const sql = `SELECT authorID FROM news WHERE ID = ${postId} AND authorID = ${userId}`;
 
@@ -133,9 +136,10 @@ export const publishNews = (req, res) => {
     });
   }
 
-  const sql = `INSERT INTO news( title, content, authorID) VALUES ('${title}','${content}','${authorID}')`;
+  const sql = `INSERT INTO news( title, content, authorID) VALUES ("""${title}""","""${content}""",'${authorID}')`;
 
   conn.query(sql, (err, result) => {
+    console.log(authorID);
     if (err) {
       return res.send({
         success: false,

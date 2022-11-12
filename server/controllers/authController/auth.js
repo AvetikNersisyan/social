@@ -32,8 +32,6 @@ export const login = (req, res) => {
       return res.send({ success: false, message: "No user found" });
     }
   });
-
-  // res.send({ status: "ok", token: token });
 };
 
 export const signup = (req, res) => {
