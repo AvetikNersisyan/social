@@ -136,7 +136,7 @@ export const publishNews = (req, res) => {
     });
   }
 
-  const escapteQuotes = (str) => str.replace("'", "''");
+  const escapteQuotes = (str) => str.replaceAll("'", "''");
 
   const escapedTitle = escapteQuotes(title);
   const escapedContent = escapteQuotes(content);
