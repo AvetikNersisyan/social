@@ -23,7 +23,7 @@ export const MainFeed = () => {
     );
   }
 
-  console.count("response main");
+  console.log(res,"response main");
   return (
     <MainLayout>
       <Container

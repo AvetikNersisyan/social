@@ -1,8 +1,8 @@
-import { query } from "express";
+import { escapeQuotes } from '../../helpers/utils.js'
 import { conn } from "../../index.js";
 
 export const getNewsController = (req, res) => {
-  const sql = `SELECT news.id, users.name, users.email, users.surname, news.title, news.content FROM news JOIN users On users.ID = news.authorID  WHERE users.ID = '${req.user.id}' `;
+  const sql = `SELECT news.ID, users.email, news.title, news.content, news.authorID, users.name, users.surname,  GROUP_CONCAT(JSON_ARRAY(JSON_OBJECT('userid',postlikes.userID, 'name', users.name, 'surname', users.surname))) as likedBy FROM news JOIN users On users.ID = news.authorID LEFT JOIN postlikes On postlikes.postId = news.id GROUP BY news.ID`;
 
   conn.query(sql, (err, result) => {
     if (err) {
@@ -22,7 +22,7 @@ export const getNewsController = (req, res) => {
 };
 
 export const getFeedController = (req, res) => {
-  let sql = `SELECT news.ID, news.title, news.content, news.authorID, users.name, users.surname FROM news  JOIN users ON users.ID = news.authorID`;
+  const sql = `SELECT news.ID, users.email, news.title, news.content, news.authorID, users.name, users.surname,  GROUP_CONCAT(JSON_ARRAY(JSON_OBJECT('userid',postlikes.userID, 'name', users.name, 'surname', users.surname))) as likedBy FROM news JOIN users On users.ID = news.authorID LEFT JOIN postlikes On postlikes.postId = news.id GROUP BY news.ID`;
 
   conn.query(sql, (err, result) => {
     if (err) {
@@ -35,8 +35,12 @@ export const getFeedController = (req, res) => {
     if (result) {
       const adaptedData = result.map((item) => {
         item.isOwner = item.authorID === req.user.id;
-        return item;
+        console.log(item.likedBy, 'likedby')
+        // const temp = JSON.parse(item.likedBy)
+        item.likedBy = item.likedBy.filter(item =>  item.userid)
+        return item
       });
+
 
       return res.send({
         success: true,
@@ -47,6 +51,7 @@ export const getFeedController = (req, res) => {
     }
   });
 };
+
 
 export const updatePost = (req, res) => {
   const { id: postId } = req.params;
@@ -136,10 +141,9 @@ export const publishNews = (req, res) => {
     });
   }
 
-  const escapteQuotes = (str) => str.replaceAll("'", "''");
 
-  const escapedTitle = escapteQuotes(title);
-  const escapedContent = escapteQuotes(content);
+  const escapedTitle = escapeQuotes(title);
+  const escapedContent = escapeQuotes(content);
 
   const sql = `INSERT INTO news( title, content, authorID) VALUES ('${escapedTitle}','${escapedContent}','${authorID}')`;
 

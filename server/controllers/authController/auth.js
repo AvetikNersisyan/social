@@ -6,7 +6,7 @@ import { SALT_ROUNDS } from "../../routers/utils.js";
 export const login = (req, res) => {
   const { username, password } = req.body;
 
-  const sql = `SELECT ID, email, password FROM users WHERE email="${username}"`;
+  const sql = `SELECT ID, email, password, name, surname FROM users WHERE email="${username}"`;
 
   conn.query(sql, async (err, result) => {
     console.log(err, "err");
@@ -17,9 +17,10 @@ export const login = (req, res) => {
     if (result.length) {
       const isMatch = await bcrypt.compare(password, result[0].password);
 
-      const id = result[0].ID;
+      const { email, name, surname, ID: id, username } = result[0]
+      // const id = result[0].ID;
       if (isMatch) {
-        const token = jwt.sign({ username, id: id }, "hello");
+        const token = jwt.sign({ username, id, name, surname, email }, "hello");
 
         return res.status(200).send({ success: isMatch, token: token });
       } else {

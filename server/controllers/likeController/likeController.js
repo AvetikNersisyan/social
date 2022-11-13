@@ -1,12 +1,14 @@
+import { escapeQuotes } from '../../helpers/utils.js'
 import { conn } from "../../index.js";
 
 export const likePost = (req, res) => {
   const { id: postId } = req.params;
   const { id: userId } = req.user;
 
+  console.log(req.user)
   let isSent = false;
 
-  const likeSql = `INSERT INTO postlikes (postId, userID) VALUES(${postId}, ${userId} )`;
+  const likeSql = `INSERT INTO postlikes (postId, userID) VALUES(${postId}, ${userId})`;
   const deleteSql = `DELETE FROM postlikes WHERE id = ?`;
   const selectLike = `SELECT * FROM postlikes WHERE postId = "${postId}" AND userID = "${userId}"`;
   const selectPostAuthorSql = `SELECT authorID FROM news WHERE ID = "${postId}"`;
@@ -23,7 +25,6 @@ export const likePost = (req, res) => {
     } else if (result[0].authorID === userId) {
       isSent = true;
 
-      console.log(isSent, "verev");
       return res.send({
         success: false,
         message: "User is not allowed to like own posts.",
@@ -52,6 +53,7 @@ export const likePost = (req, res) => {
             return res.send({
               success: true,
               data: {
+                liked: false,
                 postId,
                 userId,
               },
@@ -68,8 +70,9 @@ export const likePost = (req, res) => {
             return res.send({
               success: true,
               data: {
-                userId,
+                liked: true,
                 postId,
+                userId,
               },
             });
           }
